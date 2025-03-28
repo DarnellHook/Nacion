@@ -51,7 +51,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             z-index: 10;
-            display: none;
+            display: block;
             width: 300px;
         }
 
@@ -141,7 +141,7 @@
 </head>
 <body>
     <h1>DarnellHook Premium</h1>
-    <button class="button" onclick="showLoginForm()">Login</button>
+    <button class="button" id="loginButton" onclick="showLoginForm()">Login</button>
 
     <div class="login-container" id="loginContainer">
         <h2>Login</h2>
@@ -166,6 +166,7 @@
         // Show the login form
         function showLoginForm() {
             document.getElementById("loginContainer").style.display = "block";
+            document.getElementById("loginButton").style.display = "none"; // Hide login button
         }
 
         // Handle login with username and password
@@ -175,8 +176,9 @@
 
             if (username === "Premiumbypass11" && password === "Premiumbypass11") {
                 alert("Login successful! Welcome to DarnellHook Premium.");
-                document.getElementById("loginContainer").style.display = "none";
-                document.getElementById("spamContainer").style.display = "block"; // Show the spammer
+                document.getElementById("loginContainer").style.display = "none"; // Hide login UI
+                document.getElementById("loginButton").style.display = "none"; // Hide login button
+                document.getElementById("spamContainer").style.display = "block"; // Show spam tool
             } else {
                 alert("Incorrect username or password!");
             }

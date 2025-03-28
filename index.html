@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nacion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 0;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(to right, #8e44ad, #3498db);
+            color: white;
+            font-size: 20px;
+            padding: 20px 40px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #3498db, #8e44ad);
+        }
+
+        .credits {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            font-size: 1.5em;
+            user-select: none;
+            pointer-events: none;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Nacion</h1>
+
+    <div class="button-container">
+        <button onclick="window.location.href='https://github.com/'">Visit GitHub</button>
+        <button onclick="window.location.href='https://nacion.io/'">Visit Nacion</button>
+    </div>
+
+    <div class="credits">
+        <p>Credits to <strong>Your Name</strong> for inspiration and design!</p>
+    </div>
+
+    <!-- Snowfall Effect -->
+    <script>
+        // Snowfall Effect Function
+        function createSnowflakes() {
+            let numberOfSnowflakes = 50; // Increase for more snowflakes
+            let snowflakesContainer = document.body;
+
+            for (let i = 0; i < numberOfSnowflakes; i++) {
+                let snowflake = document.createElement("span");
+                snowflake.classList.add("snowflake");
+                snowflake.textContent = "❄"; // Snowflake character
+                snowflake.style.left = Math.random() * 100 + "vw"; // Random horizontal position
+                snowflake.style.animationDuration = Math.random() * 5 + 5 + "s"; // Random speed
+                snowflake.style.animationDelay = Math.random() * 5 + "s"; // Random delay
+
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+
+        createSnowflakes();
+    </script>
+</body>
+</html>

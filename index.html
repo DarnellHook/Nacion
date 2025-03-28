@@ -3,98 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banana - xeno.now Inspired</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>DarnellHook Premium</title>
     <style>
         /* General Body Styling */
         body {
-            font-family: 'Press Start 2P', cursive;
-            background: #f9a825;
+            font-family: Arial, sans-serif;
+            background: #212121; /* Dark background */
             color: white;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            text-align: center;
-            position: relative;
+            flex-direction: column;
         }
 
         h1 {
-            font-size: 4em;
-            color: #ffeb3b;
-            text-shadow: 0px 0px 20px #d32f2f, 0px 0px 30px #ffeb3b;
-        }
-
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            max-width: 600px;
+            font-size: 3em;
+            color: #eeeeee;
         }
 
         .button {
-            background: #e65100;
-            border: none;
-            padding: 20px 40px;
-            font-size: 1.5em;
+            background-color: #6a4cf7;
             color: white;
-            text-transform: uppercase;
-            cursor: pointer;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
             border-radius: 8px;
+            cursor: pointer;
             margin: 20px;
-            transition: background 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .button:hover {
-            background: #d32f2f;
+            background-color: #4e3ec5;
         }
 
-        .message {
-            font-size: 1.5em;
-            color: #fff;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
+        /* Login Popup Styling */
+        .login-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            display: none;
+            width: 300px;
         }
 
-        .show-message {
-            opacity: 1;
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4e3ec5;
+            color: white;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #6a4cf7;
         }
 
         .credits {
             position: absolute;
             bottom: 10px;
             width: 100%;
-            font-size: 12px;
-            color: white;
-            text-shadow: 0px 0px 5px #000000;
+            text-align: center;
+            font-size: 14px;
+            color: #ffffff;
+            z-index: 2;
         }
 
+        /* Spam Form */
+        .spam-container {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spam-container input, .spam-container textarea {
+            padding: 12px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+        }
+
+        .spam-container button {
+            background-color: #6a4cf7;
+            color: white;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .spam-container button:hover {
+            background-color: #4e3ec5;
+        }
+
+        /* Snowfall Effect */
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            font-size: 1.5em;
+            user-select: none;
+            pointer-events: none;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
     </style>
 </head>
 <body>
+    <h1>DarnellHook Premium</h1>
+    <button class="button" onclick="showLoginForm()">Login</button>
 
-    <div class="container">
-        <h1>Banana</h1>
-        <button class="button" onclick="showMessage()">Click Me!</button>
-        <div class="message" id="message">
-            You clicked the button! 🍌
-        </div>
+    <div class="login-container" id="loginContainer">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div class="spam-container" id="spamContainer">
+        <h2>Discord Webhook Spammer</h2>
+        <input type="text" id="webhook" placeholder="Enter Webhook URL">
+        <textarea id="message" placeholder="Enter your message"></textarea><br>
+        <input type="number" id="spamCount" placeholder="Spam Count (Max 30)" min="1" max="30"><br>
+        <button onclick="spamWebhook()">Spam Webhook</button>
     </div>
 
     <div class="credits">
-        <p>Inspired by <strong>xeno.now</strong> - Made by You!</p>
+        <p>Credits to <strong>TrimX</strong> for the inspiration!</p>
     </div>
 
     <script>
-        // Function to show the message with a delay
-        function showMessage() {
-            const message = document.getElementById('message');
-            message.classList.add('show-message');
+        // Show the login form
+        function showLoginForm() {
+            document.getElementById("loginContainer").style.display = "block";
         }
-    </script>
 
+        // Handle login with username and password
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "Premiumbypass11" && password === "Premiumbypass11") {
+                alert("Login successful! Welcome to DarnellHook Premium.");
+                document.getElementById("loginContainer").style.display = "none";
+                document.getElementById("spamContainer").style.display = "block"; // Show the spammer
+            } else {
+                alert("Incorrect username or password!");
+            }
+        }
+
+        // Webhook Spammer Function
+        async function spamWebhook() {
+            const webhook = document.getElementById("webhook").value;
+            const message = document.getElementById("message").value;
+            let spamCount = parseInt(document.getElementById("spamCount").value) || 1;
+
+            spamCount = Math.min(spamCount, 30); // Max spam count 30
+
+            if (!webhook || !message) {
+                alert("Please enter a webhook URL and a message.");
+                return;
+            }
+
+            for (let i = 0; i < spamCount; i++) {
+                fetch(webhook, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ content: message })
+                })
+                .then(response => console.log(`Message ${i + 1} sent`))
+                .catch(error => console.error("Error:", error));
+
+                await new Promise(resolve => setTimeout(resolve, 1)); // Delay set to 1ms
+            }
+        }
+
+        // Snowfall effect
+        function createSnowflakes() {
+            let numberOfSnowflakes = 50;
+            let snowflakesContainer = document.body;
+
+            for (let i = 0; i < numberOfSnowflakes; i++) {
+                let snowflake = document.createElement("span");
+                snowflake.classList.add("snowflake");
+                snowflake.textContent = "❄"; // Snowflake character
+                snowflake.style.left = Math.random() * 100 + "vw"; // Random horizontal position
+                snowflake.style.animationDuration = Math.random() * 5 + 5 + "s"; // Random speed
+                snowflake.style.animationDelay = Math.random() * 5 + "s"; // Random delay
+
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+
+        createSnowflakes();
+    </script>
 </body>
 </html>

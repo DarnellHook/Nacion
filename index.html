@@ -154,8 +154,8 @@
         <h2>Discord Webhook Spammer</h2>
         <input type="text" id="webhook" placeholder="Enter Webhook URL">
         <textarea id="message" placeholder="Enter your message"></textarea><br>
-        <input type="number" id="spamCount" placeholder="Spam Count (Max 30)" min="1" max="30"><br>
-        <button onclick="spamWebhook()">Spam Webhook</button>
+        <button id="startButton" onclick="startWebhook()">Start Webhook</button>
+        <button id="stopButton" onclick="stopWebhook()" style="display:none;">Stop Webhook</button>
     </div>
 
     <div class="credits">
@@ -163,6 +163,8 @@
     </div>
 
     <script>
+        let spamInterval;
+
         // Show the login form
         function showLoginForm() {
             document.getElementById("loginContainer").style.display = "block";
@@ -184,20 +186,18 @@
             }
         }
 
-        // Webhook Spammer Function
-        async function spamWebhook() {
+        // Webhook Spammer Function (Start Webhook)
+        function startWebhook() {
             const webhook = document.getElementById("webhook").value;
             const message = document.getElementById("message").value;
-            let spamCount = parseInt(document.getElementById("spamCount").value) || 1;
-
-            spamCount = Math.min(spamCount, 30); // Max spam count 30
 
             if (!webhook || !message) {
                 alert("Please enter a webhook URL and a message.");
                 return;
             }
 
-            for (let i = 0; i < spamCount; i++) {
+            // Start the spamming interval
+            spamInterval = setInterval(() => {
                 fetch(webhook, {
                     method: "POST",
                     headers: {
@@ -205,11 +205,23 @@
                     },
                     body: JSON.stringify({ content: message })
                 })
-                .then(response => console.log(`Message ${i + 1} sent`))
+                .then(response => console.log("Message sent"))
                 .catch(error => console.error("Error:", error));
+            }, 1); // 1ms delay between each request
 
-                await new Promise(resolve => setTimeout(resolve, 1)); // Delay set to 1ms
-            }
+            // Hide Start Button and show Stop Button
+            document.getElementById("startButton").style.display = "none";
+            document.getElementById("stopButton").style.display = "inline-block";
+        }
+
+        // Webhook Stop Function
+        function stopWebhook() {
+            clearInterval(spamInterval);
+            alert("Webhook spamming stopped.");
+
+            // Show Start Button and hide Stop Button
+            document.getElementById("startButton").style.display = "inline-block";
+            document.getElementById("stopButton").style.display = "none";
         }
 
         // Snowfall effect
@@ -228,8 +240,3 @@
                 snowflakesContainer.appendChild(snowflake);
             }
         }
-
-        createSnowflakes();
-    </script>
-</body>
-</html>
